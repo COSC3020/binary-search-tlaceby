@@ -1,15 +1,29 @@
-
-function binarySearch(list = [], element) {
-    if (list.length == 0) return -1;
-    if (list.length == 1) 
-        return list[0] === element ? 0 : -1;
+/**
+ * Finds the first occurance of a element inside a sorted array. If the elemrnt is not found
+ * then returns -1.
+ * @param {number[]} list A sorted array
+ * @param {number} element The element to look for.
+ * @returns {number} the index or -1 of the first occurance.
+ */
+function binarySearch(list, element) {
+    let left = 0;
+    let right = list.length - 1;
+    let result = -1;
     
-    const pivot = Math.floor(list.length / 2);
-    const at = list[pivot];
+    while (left <= right) {
+        const pivot = Math.floor((left + right) / 2);
+        const pivotEl = list[pivot];
 
-    if (at === element) return pivot;
-    else if (at > element) 
-        return binarySearch(list.slice(0, pivot), element);
+        if (pivotEl === element) {
+            result = pivot;
+            // Find first duplicate in array by traversing
+            // to the left most occurance.
+            right = pivot - 1;  
+        }
+        else if (pivotEl < element) left = pivot + 1;
+        else right = pivot - 1;
+        
+    }
 
-    return binarySearch(list.slice(pivot + 1, list.length), element);
+    return result;
 }
